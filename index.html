@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Illusion Diffusion AI App</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Illusion Diffusion AI App</h1>
+        <div class="form-group">
+            <label for="inputPrompt">Enter Prompt:</label>
+            <input type="text" class="form-control" id="inputPrompt" placeholder="Enter your prompt">
+        </div>
+        <div class="form-group">
+            <label for="inputImage">Upload Image Url:</label>
+            <input type="text" class="form-control-file" id="inputImage">
+        </div>
+        <button class="btn btn-primary" onclick="processImageAndPrompt()">Generate</button>
+        <br>
+        <br>
+        <h2>Output:</h2>
+        <div id="output"></div>
+    </div>
+
+    <!-- Add Bootstrap and JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        async function processImageAndPrompt() {
+            const inputPrompt = document.getElementById("inputPrompt").value;
+            const inputImage = document.getElementById("inputImage").value;
+
+            // Replace 'YOUR_API_KEY' with your actual API key
+            const apiKey = '2cf78d94-f0a0-4350-92db-351d88ab3299:27b1c49a0d79fde54d26403e695218ba';
+            
+            // Prepare the data for the API request (adjust this based on the API documentation)
+            const formData = new FormData();
+            formData.append('image_url', 'https://storage.googleapis.com/falserverless/illusion-examples/pattern.png');
+            formData.append('prompt', inputPrompt);
+
+            // Replace 'https://54285744-illusion-diffusion.gateway.alpha.fal.ai/' with your API endpoint
+            const apiUrl = 'https://54285744-illusion-diffusion.gateway.alpha.fal.ai/';
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    Authorization: `Key ${apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    image_url: 'https://storage.googleapis.com/falserverless/illusion-examples/pattern.png',
+                    prompt: inputPrompt
+                })
+            };
+
+            try {
+                const response = await fetch(apiUrl, options);
+                const data = await response.json();
+                console.log(data);
+
+                // Update the 'output' div with the API response
+                
+                // JSON data
+
+// Create an HTML img element
+const imgElement = document.createElement("img");
+
+// Set attributes for the img element
+imgElement.src = data.image.url;
+imgElement.alt = data.image.file_name;
+//imgElement.width = data.image.width;
+//imgElement.height = data.image.height;
+imgElement.width=500
+
+// Append the img element to the document or an existing container
+document.getElementById("output").appendChild(imgElement);
+
+                
+                
+                
+                
+                
+                
+                
+                
+                //document.getElementById("output").innerHTML = JSON.stringify(data, null, 4);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
